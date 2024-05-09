@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { Formik } from 'formik';
+import './user.css'
 
 function ProfilePage({onLogout}) {
   const [user, setUser] = useState(null);

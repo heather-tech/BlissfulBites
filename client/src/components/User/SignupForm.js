@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import './user.css'
 
 const validationSchema = yup.object({
   email: yup.string()
@@ -85,7 +86,7 @@ const SignupForm = ({onSignUpSuccess}) => {
           </div>
           <button className="button" type="submit">Create Account</button>
           {error && <div className="error">{error}</div>}
-          <p><a href="/login">Sign In</a></p>
+          <p><a href="/login">Login</a></p>
         </form>
       </div>
     </div>

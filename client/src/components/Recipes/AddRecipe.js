@@ -42,11 +42,13 @@ function AddRecipe() {
   const handleCuisineChange = (e) => {
     const value = e.target.value;
     setSelectedCuisine(value);
-    if (value === 'Other') {
-      document.getElementById('other-cuisine-input').style.display = 'block';
-    } else {
-      document.getElementById('other-cuisine-input').style.display = 'none';
-    }
+    console.log(value)
+    // if (value === '5') 
+    //   {
+    //   document.getElementById('other-cuisine-input').style.display = 'block';
+    // } else {
+    //   document.getElementById('other-cuisine-input').style.display = 'none';
+    // }
   };
 
   const handleOtherCuisineNameChange = (e) => {
@@ -56,6 +58,7 @@ function AddRecipe() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let cuisineId;
+    let cuisineName
     if (selectedCuisine === 'Other') {
       try {
         const response = await fetch('/api/cuisines', {
@@ -67,14 +70,20 @@ function AddRecipe() {
         });
         const data = await response.json();
         cuisineId = data.id;
+        cuisineName = otherCuisineName;
       } catch (error) {
         console.error('Error creating new cuisine:', error);
       }
     } else {
       cuisineId = selectedCuisine;
+
+      const selectedCuisineObj = cuisines.find(cuisine => cuisine.id === selectedCuisine);
+      cuisineName = selectedCuisineObj ? selectedCuisineObj.name : '';
     }
     // Retrieves cuisine id
     formData.cuisine_id = cuisineId;
+
+    setFormData({...formData, cuisine_id: cuisineId, cuisine_name: cuisineName});
     try {
       const response = await fetch('/api/recipes', {
         method: 'POST',
@@ -113,7 +122,7 @@ function AddRecipe() {
           <input
             type="text"
             name="name"
-            placeholder="recipe name"
+            placeholder="Recipe name"
             value={formData.name}
             onChange={handleInputChange}
             required
@@ -122,7 +131,7 @@ function AddRecipe() {
             <label>Description:</label>
             <textarea
               name="description"
-              placeholder="brief recipe description"
+              placeholder="Brief recipe description"
               value={formData.description}
               onChange={handleInputChange}
               required
@@ -132,7 +141,7 @@ function AddRecipe() {
             <label>Ingredients:</label>
             <textarea
               name="ingredients"
-              placeholder="recipe ingredients separated by commas"
+              placeholder="Recipe ingredients separated by commas"
               value={formData.ingredients}
               onChange={handleInputChange}
               required
@@ -140,7 +149,7 @@ function AddRecipe() {
             <label>Directions:</label>
             <textarea
               name="directions"
-              placeholder="recipe directions separated by periods."
+              placeholder="Recipe directions separated by periods."
               value={formData.directions}
               onChange={handleInputChange}
               required
@@ -151,7 +160,7 @@ function AddRecipe() {
             <input
               type="number"
               name="prep_time"
-              placeholder="approximate prep time"
+              placeholder="Approximate prep time"
               value={formData.prep_time}
               onChange={handleInputChange}
               required
@@ -162,7 +171,7 @@ function AddRecipe() {
             <input
               type="number"
               name="total_servings"
-              placeholder="total servings"
+              placeholder="Total servings"
               value={formData.total_servings}
               onChange={handleInputChange}
               required
@@ -194,6 +203,8 @@ function AddRecipe() {
                 <option value="Other">Other</option>
               )}
             </select>
+            {console.log(selectedCuisine)} 
+            {selectedCuisine == "5" ? 
 
             <input
               id="other-cuisine-input"
@@ -201,8 +212,9 @@ function AddRecipe() {
               placeholder="Enter custom cuisine name"
               value={otherCuisineName}
               onChange={handleOtherCuisineNameChange}
-              style={{ display: selectedCuisine === 'Other' ? 'block' : 'inline' }}
-            />
+              style={{ display: selectedCuisine === '5' ? 'block' : 'none' }}
+            />:<div></div>
+          }
           </div>
           <button className="button" type="submit">Add Recipe</button>
         </div>

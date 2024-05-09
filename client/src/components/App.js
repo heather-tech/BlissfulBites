@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import SignupForm from "./User/SignupForm";
-import NavBar from "./NavBar";
+import NavBar from "./Nav/NavBar";
 import Login from "./User/Login";
 import Recipes from "./Recipes/Recipes";
 import SavedRecipes from "./Recipes/SavedRecipes";

@@ -35,7 +35,7 @@ const RecipeCard = ({ id, name, description, image, total_servings, prep_time, i
       } = updatedRecipe;
 
 
-      // Update only if the property has changed
+      // Update only if it has changed
       if (newName !== updatedName) setUpdatedName(newName);
       if (newDescription !== updatedDescription) setUpdatedDescription(newDescription);
       if (newImage !== updatedImage) setUpdatedImage(newImage);

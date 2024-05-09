@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import RecipeCard from './RecipeCard';
 import EditRecipeForm from './EditRecipeForm';
+import './recipe.css'
 
 function Recipes() {
   const location = useLocation();
