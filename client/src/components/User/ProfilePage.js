@@ -82,6 +82,7 @@ function ProfilePage({onLogout}) {
               <form className="box" onSubmit={handleSubmit}>
                 <p className='profile-email'>Email: {user.email}</p>
                 <div className='input-box'>
+                  {/* <label>Name: </label> */}
                   <input
                     type="text"
                     id="name"
@@ -107,7 +108,9 @@ function ProfilePage({onLogout}) {
               </form>
             )}
           </Formik>
-          <button className='button' onClick={handleLogout}>Logout</button>
+          <div className="button-logout-container">
+          <button className='button-logout' onClick={handleLogout}>Logout</button>
+          </div>
         </>
       ) : null}
     </div>
