@@ -7,10 +7,13 @@ function Home() {
 
   return (
     <div className='home'>
+      <header>
+        <h1>Blissful Bites</h1>
+      </header>
       
 
 
-      <h1>Blissful Bites</h1>
+      
 
       <main>
         <Recipes />

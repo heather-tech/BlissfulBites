@@ -11,10 +11,10 @@ function NavBar({ isLoggedIn }) {
             {isLoggedIn ? (
                 <NavLink to="/user" className="navbar-link">Profile</NavLink>
             ) : (
-                <div>
+                <React.Fragment>
                     <NavLink to="/signup" className="navbar-link">Sign Up</NavLink>
                     <NavLink to="/login" className="navbar-link">Login</NavLink>
-                </div>
+                </React.Fragment>
             )}
         </nav>
     );
