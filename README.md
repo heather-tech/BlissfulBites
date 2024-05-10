@@ -2,9 +2,7 @@
 
 Blissful Bites is a React-Flask full-stack application that allows users to view, add, edit and delete recipes to the database along with sign up and login features. Each user can deploy full CRUD operations on the recipes. 
 
-## Walkthrough
 
-[Blissful Bites Walkthrough](https://youtu.be/sYMedzvnI40)
 
 
 ## Installation
