@@ -1,6 +1,6 @@
 # Standard library imports
 # Remote library imports
-from flask import request, make_response
+from flask import request, make_response, jsonify
 from flask_restful import Resource
 import traceback
 
@@ -88,11 +88,11 @@ class CurrentUser(Resource):
         try: 
             user_info = User.query.filter_by(id=id).first()
             if not user_info:
-                return {"User not found"}, 404
-            return make_response(user_info.to_dict(), 200)
+                return {"error": "User not found"}, 404
+            return jsonify(user_info.to_dict(), 200)
         except Exception as e:
             traceback.print_exc()
-            return {"error": "An error occurred while fetching the order history", "message": str(e)}, 500
+            return {"error": "An error occurred while fetching the user information", "message": str(e)}, 500
     
     def patch(self, id):
         data = request.get_json()
