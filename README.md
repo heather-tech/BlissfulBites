@@ -4,8 +4,9 @@ Blissful Bites is a React-Flask full-stack application that allows users to view
 
 ## Preview 
 
-![](../BlissfulBites/server/readme/LoginGif/Small%20GIF%20(400x336).gif)
-![](../BlissfulBites/server/readme/FindRecipesGit.gif)
+![](https://github.com/heather-tech/BlissfulBites/blob/main/server/readme/LoginGif/Large%20GIF%20(1156x972).gif)
+
+![](https://github.com/heather-tech/BlissfulBites/blob/main/server/readme/FindRecipesGit.gif)
 
 
 
