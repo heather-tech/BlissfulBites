@@ -15,10 +15,35 @@ function AddRecipe() {
     user_id: '', 
   });
 
+  const [currentUser, setCurrentUser] = useState(null);
   const [cuisines, setCuisines] = useState([]);
   const [otherCuisineName, setOtherCuisineName] = useState('');
   const [selectedCuisine, setSelectedCuisine] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const response = await fetch('/api/check_session');
+        if (response.ok) {
+          const userData = await response.json();
+          setCurrentUser(userData);
+          // Set user_id in the form data
+          setFormData(prevState => ({
+            ...prevState,
+            user_id: userData.id,
+          }));
+        } else {
+          // Redirect to login page if not authenticated
+          navigate('/login');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchCurrentUser();
+  }, [navigate]);
 
   useEffect(() => {
     fetchCuisines();
@@ -42,13 +67,7 @@ function AddRecipe() {
   const handleCuisineChange = (e) => {
     const value = e.target.value;
     setSelectedCuisine(value);
-    console.log(value)
-    // if (value === '5') 
-    //   {
-    //   document.getElementById('other-cuisine-input').style.display = 'block';
-    // } else {
-    //   document.getElementById('other-cuisine-input').style.display = 'none';
-    // }
+    // console.log(value)
   };
 
   const handleOtherCuisineNameChange = (e) => {

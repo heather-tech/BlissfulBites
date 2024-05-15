@@ -20,6 +20,7 @@ function Recipes() {
       });
   }, []);
 
+  const displayRecipes = location.pathname === '/' ? recipes.slice(0, 3) : recipes;
 
   const deleteRecipe = async (recipeId) => {
     try {
@@ -68,7 +69,7 @@ function Recipes() {
 
       <div className="recipes-container">
         <div className="recipes">
-          {recipes.map(recipe => ( 
+          {displayRecipes.map(recipe => ( 
             <React.Fragment key={recipe.id}>
               {editingRecipeId === recipe.id ? (
                 <EditRecipeForm 

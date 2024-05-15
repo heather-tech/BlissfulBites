@@ -3,6 +3,7 @@
 from flask import request, make_response, jsonify
 from flask_restful import Resource
 from werkzeug.exceptions import NotFound
+from flask_login import login_required, current_user
 
 
 # Local imports
@@ -14,6 +15,7 @@ from models.models import Recipe
 
 # RECIPES ROUTES - GET, POST, PUT, DELETE
 class RecipesResource(Resource):
+    @login_required
     def post(self):
         form_data = request.json
         new_recipe = Recipe(
@@ -25,7 +27,7 @@ class RecipesResource(Resource):
             prep_time=form_data['prep_time'],
             image=form_data['image'],
             cuisine_id=form_data['cuisine_id'],
-            user_id=form_data['user_id'],
+            user_id=current_user.id
         )
         db.session.add(new_recipe)
         db.session.commit()
