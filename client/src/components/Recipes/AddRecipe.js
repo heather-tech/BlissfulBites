@@ -72,13 +72,14 @@ function AddRecipe() {
 
   const handleOtherCuisineNameChange = (e) => {
     setOtherCuisineName(e.target.value);
+    console.log(e.target.value)
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     let cuisineId;
     let cuisineName
-    if (selectedCuisine === 'Other') {
+    if (selectedCuisine === '5') {
       try {
         const response = await fetch('/api/cuisines', {
           method: 'POST',
