@@ -14,7 +14,8 @@ const RecipeCard = ({ id, name, description, image, total_servings, prep_time, i
 
   useEffect(() => {
     fetchCuisineName();
-  }, [cuisineId, updatedRecipe]); // Update when cuisineId or updatedRecipe changes
+    // Updates when cuisineId or updatedRecipe changes
+  }, [cuisineId, updatedRecipe]); 
 
   useEffect(() => {
     if (updatedRecipe && updatedRecipe.cuisine_id === cuisineId) {

@@ -88,6 +88,3 @@ class RecipesResource(Resource):
 
 api.add_resource(RecipesResource, '/api/recipes', '/api/recipes/<int:recipe_id>')
     
-
-
-

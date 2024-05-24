@@ -45,7 +45,7 @@ const EditRecipeForm = ({ recipe, onCancel, updateRecipe }) => {
         throw new Error('Failed to update recipe');
       }
       updateRecipe(formData);
-      onCancel(); // CLOSE EDIT FORM
+      onCancel(); // CLOSES EDIT FORM
     } catch (error) {
       console.error('Update error:', error);
       setError('Update failed');

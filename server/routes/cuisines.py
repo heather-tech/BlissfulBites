@@ -29,10 +29,5 @@ class CuisineResource(Resource):
             cuisine_dicts = [cuisine.to_dict() for cuisine in cuisines]
             return jsonify(cuisine_dicts)
 
-    # def get(self, cuisine_id):
-    #     cuisine = Cuisine.query.get(cuisine_id)
-    #     if not cuisine:
-    #         return {'error': 'Cuisine not found'}, 404
-    #     return cuisine.to_dict()
     
 api.add_resource(CuisineResource, '/api/cuisines', '/api/cuisines/<int:cuisine_id>')

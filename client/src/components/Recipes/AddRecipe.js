@@ -34,7 +34,7 @@ function AddRecipe() {
             user_id: userData.id,
           }));
         } else {
-          // Redirect to login page if not authenticated
+          // Redirects to login page if not authenticated
           navigate('/login');
         }
       } catch (error) {

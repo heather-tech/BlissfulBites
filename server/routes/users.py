@@ -130,4 +130,3 @@ api.add_resource(CurrentUser, '/api/current_user/<int:id>')
 api.add_resource(Users, '/api/users', '/api/users/<int:user_id>')
 
 
-

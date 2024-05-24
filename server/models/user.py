@@ -15,7 +15,7 @@ class User(db.Model, SerializerMixin, UserMixin):
     _password_hash = db.Column('password', db.String, nullable=False)
 
     # RELATIONSHIPS
-    recipes = db.relationship('Recipe', back_populates='user', lazy=True) #maybe change lazy=True
+    recipes = db.relationship('Recipe', back_populates='user', lazy=True) 
 
     # SERIALIZATION
     # serialize_rules = ('-id', )  
@@ -28,6 +28,13 @@ class User(db.Model, SerializerMixin, UserMixin):
                 raise ValueError("Email must contain @.")
         return value
     
+    # # bio must be more than 20 characters
+    # @validates('bio')
+    # def validates_bio(self, value):
+    #         if len(value) < 20:
+    #             raise ValueError("Must be more than 20 characters.")
+    #         return value
+
     @hybrid_property
     def password_hash(self):
         return self._password_hash

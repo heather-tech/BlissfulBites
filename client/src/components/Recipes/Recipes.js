@@ -49,7 +49,7 @@ function Recipes() {
         throw new Error('Failed to fetch updated recipe');
       }
       const data = await response.json();
-      // Update the recipes array with the updated recipe
+      // UPDATES RECIPES
       setRecipes(prevRecipes => prevRecipes.map(recipe => (
         recipe.id === updatedRecipe.id ? data : recipe
       )));
