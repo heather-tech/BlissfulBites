@@ -224,7 +224,7 @@ function AddRecipe() {
               )}
             </select>
             {console.log(selectedCuisine)} 
-            {selectedCuisine == "5" ? 
+            {selectedCuisine === "5" ? 
 
             <input
               id="other-cuisine-input"

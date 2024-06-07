@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signUpUser } from '../../reducers/usersSlice';
 import './user.css'
 
 const validationSchema = yup.object({
@@ -13,10 +15,11 @@ const validationSchema = yup.object({
     .required('Password required'),
 });
 
-const SignupForm = ({onSignUpSuccess}) => {
+const SignupForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [error, setError] = useState('');
-  const [user, setUser] = useState(null);
+  
 
   const formik = useFormik({
     initialValues: {
@@ -25,32 +28,13 @@ const SignupForm = ({onSignUpSuccess}) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      try {
-        const response = await fetch('/api/signup', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(values),
-        });
-        if (!response.ok) {
-          const data = await response.json();
-          if (response.status === 409 && data.error === 'Email already exists') {
-            setError('Email is already registered');
-          } else {
-            throw new Error('Signup failed');
-          }
-        } else {
-          onSignUpSuccess();
-          const data = await response.json();
-          setUser(data);
+        const resultAction = await dispatch(signUpUser(values));
+        if (signUpUser.fulfilled.match(resultAction)) {
           navigate('/user');
+        } else {
+           setError(resultAction.payload);
         }
-      } catch (error) {
-        console.error('Signup error:', error);
-        setError('Signup failed');
-      }
-    },
+      },
   });
 
   return (

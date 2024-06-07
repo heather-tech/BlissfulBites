@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateRecipe } from '../../reducers/recipesSlice'
 
-const EditRecipeForm = ({ recipe, onCancel, updateRecipe }) => {
+const EditRecipeForm = ({ recipe, onCancel }) => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({ ...recipe });
   const [errors, setErrors] = useState({});
   const [error, setError] = useState('');
@@ -34,17 +37,7 @@ const EditRecipeForm = ({ recipe, onCancel, updateRecipe }) => {
     if (!validateForm()) return;
 
     try {
-      const response = await fetch(`/api/recipes/${recipe.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to update recipe');
-      }
-      updateRecipe(formData);
+      await dispatch(updateRecipe(formData)).unwrap();
       onCancel(); // CLOSES EDIT FORM
     } catch (error) {
       console.error('Update error:', error);

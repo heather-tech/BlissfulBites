@@ -3,73 +3,36 @@ import { useLocation } from 'react-router-dom';
 import RecipeCard from './RecipeCard';
 import EditRecipeForm from './EditRecipeForm';
 import './recipe.css'
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchRecipes, deleteRecipe } from '../../reducers/recipesSlice';
 
 function Recipes() {
-  const location = useLocation();
-  const [recipes, setRecipes] = useState([]);
+  const dispatch = useDispatch();
+  const recipes = useSelector(state => state.recipes.recipes);
   const [editingRecipeId, setEditingRecipeId] = useState(null);
+  const location = useLocation();
 
   useEffect(() => {
-    fetch('/api/recipes')
-      .then(r => r.json())
-      .then(data => {
-        setRecipes(data);
-      })
-      .catch(error => {
-        console.error('Error fetching recipes:', error);
-      });
-  }, []);
+    dispatch(fetchRecipes());
+  }, [dispatch]);
 
   const displayRecipes = location.pathname === '/' ? recipes.slice(0, 3) : recipes;
 
-  const deleteRecipe = async (recipeId) => {
-    try {
-      const response = await fetch(`/api/recipes/${recipeId}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        setRecipes(recipes.filter(recipe => recipe.id !== recipeId));
-      } else {
-        console.error('Failed to delete recipe');
-      }
-    } catch (error) {
-      console.error('Error deleting recipe:', error);
-    }
-  };
-
-
   const handleEditRecipe = (recipeId) => {
-    setEditingRecipeId(recipeId); 
+    setEditingRecipeId(recipeId);
   };
 
   const updateRecipe = async (updatedRecipe) => {
-    try {
-      const response = await fetch(`/api/recipes/${updatedRecipe.id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch updated recipe');
-      }
-      const data = await response.json();
-      // UPDATES RECIPES
-      setRecipes(prevRecipes => prevRecipes.map(recipe => (
-        recipe.id === updatedRecipe.id ? data : recipe
-      )));
-    } catch (error) {
-      console.error('Error updating recipe:', error);
-    }
+    // Assume this action is already defined in your slice
+    dispatch(updateRecipe(updatedRecipe));
   };
-  
-
-
-  // CHECK IF CURRENT LOCATION IS HOME ("/")
-  const isHomePage = location.pathname === '/';
 
   return (
     <div className='recipes-home'>
-      {!isHomePage && <h1>Recipes</h1>}
-
+      {location.pathname !== '/' && <h1>Recipes</h1>}
       <div className="recipes-container">
         <div className="recipes">
-          {displayRecipes.map(recipe => ( 
+          {displayRecipes.map(recipe => (
             <React.Fragment key={recipe.id}>
               {editingRecipeId === recipe.id ? (
                 <EditRecipeForm 
@@ -88,7 +51,7 @@ function Recipes() {
                   ingredients={recipe.ingredients}
                   directions={recipe.directions}
                   cuisineId={recipe.cuisine_id}
-                  onDelete={() => deleteRecipe(recipe.id)}
+                  onDelete={() => dispatch(deleteRecipe(recipe.id))}
                   onEdit={() => handleEditRecipe(recipe.id)}
                   updatedRecipe={recipe} 
                 />

@@ -1,66 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { Formik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCurrentUser, updateUserProfile, logoutUser } from '../../reducers/usersSlice';
 import './user.css'
 
-function ProfilePage({onLogout}) {
-  const [user, setUser] = useState(null);
+function ProfilePage() {
   const navigate = useNavigate(); 
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.users);
 
   useEffect(() => {
-    fetchCurrentUser();
-  }, []);
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
-  const fetchCurrentUser = async () => {
-    try {
-      const response = await fetch('/api/check_session');
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      } else {
-        console.error('Failed to fetch current user');
-      }
-    } catch (error) {
-      console.error('Error fetching current user:', error);
-    }
-  };
-
-  const handleSaveProfile = async (values) => {
-    try {
-      const response = await fetch(`/api/current_user/${user.id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      });
-      if (response.ok) {
-        const updatedUser = await response.json();
-        setUser(updatedUser);
-      } else {
-        console.error('Failed to update profile');
-      }
-    } catch (error) {
-      console.error('Error saving profile:', error);
-    }
+  const handleSaveProfile = (values) => {
+    dispatch(updateUserProfile(values));
   };
 
   const handleLogout = async () => {
-    try {
-      const response = await fetch('/api/logout', {
-        method: 'POST',
-      });
-      if (response.ok) {
-        setUser(null);
-        onLogout();
-        // HOME PAGE AFTER LOGGING OUT
-        navigate('/'); 
-      } else {
-        console.error('Failed to logout');
-      }
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
+    await dispatch(logoutUser());
+    navigate('/');
   };
 
   return (

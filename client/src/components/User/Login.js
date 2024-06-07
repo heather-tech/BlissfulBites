@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
 import './user.css'
+import { loginUser } from '../../reducers/usersSlice';
 
 const validationSchema = yup.object({
   email: yup.string()
@@ -13,9 +15,9 @@ const validationSchema = yup.object({
   .required('Password required'),
 });
 
-const Login = ({ onLoginSuccess }) => {
+const Login = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -24,22 +26,13 @@ const Login = ({ onLoginSuccess }) => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      try {
-        const response = await fetch('/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(values),
-        });
-        const data = await response.json();
-        setUser(data);
-        onLoginSuccess();
-        navigate('/user');
-      } catch (error) {
-        console.error('Login error:', error);
-      }
-    },
+        const resultAction = await dispatch(loginUser(values));
+        if (loginUser.fulfilled.match(resultAction)) {
+          navigate('/user');
+        } else {
+           console.error('Login error:', resultAction.payload);
+        }
+      },
   });
 
   return (
